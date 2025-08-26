@@ -6,13 +6,10 @@ on:
   pull_request:
     branches: [main, develop, staging]
 
-env:
-  NODE_VERSION: '18'
-
 jobs:
-  # Test & Lint
-  test:
-    name: Test & Lint
+  # Test and Build Job
+  test-and-build:
+    name: Test and Build
     runs-on: ubuntu-latest
     
     steps:
@@ -22,28 +19,23 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'yarn'
+          node-version: '20'
           
       - name: Install dependencies
-        run: |
-          rm -rf node_modules package-lock.json yarn.lock
-          npm install -g yarn
-          yarn install --ignore-optional
+        run: npm install
         
-      - name: Run formatting check
+      - name: Run Prettier check
         run: npm run format:check
         
       - name: Build application
         run: npm run build
 
-  # Deploy to Development (develop branch)
-  deploy-develop:
+  # Deploy to Development
+  deploy-development:
     name: Deploy to Development
-    needs: test
+    needs: test-and-build
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/develop'
-    environment: development
+    if: github.ref == 'refs/heads/develop' && github.event_name == 'push'
     
     steps:
       - name: Checkout code
@@ -52,33 +44,26 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'yarn'
+          node-version: '20'
           
       - name: Install dependencies
-        run: |
-          rm -rf node_modules package-lock.json yarn.lock
-          npm install -g yarn
-          yarn install --ignore-optional
+        run: npm install
         
       - name: Build for development
-        run: npm run build
-        env:
-          NODE_ENV: development
-          
+        run: npm run build:dev
+        
       - name: Deploy to development
         run: |
           echo "🚀 Deploying to development environment"
-          # Тут буде команда деплою на dev сервер
-          # Наприклад: rsync, scp, або деплой на Vercel/Netlify
+          echo "Branch: ${{ github.ref }}"
+          echo "Commit: ${{ github.sha }}"
 
-  # Deploy to Staging (staging branch)
+  # Deploy to Staging
   deploy-staging:
     name: Deploy to Staging
-    needs: test
+    needs: test-and-build
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/staging'
-    environment: staging
+    if: github.ref == 'refs/heads/staging' && github.event_name == 'push'
     
     steps:
       - name: Checkout code
@@ -87,32 +72,26 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'yarn'
+          node-version: '20'
           
       - name: Install dependencies
-        run: |
-          rm -rf node_modules package-lock.json yarn.lock
-          npm install -g yarn
-          yarn install --ignore-optional
+        run: npm install
         
       - name: Build for staging
-        run: npm run build
-        env:
-          NODE_ENV: staging
-          
+        run: npm run build:staging
+        
       - name: Deploy to staging
         run: |
           echo "🚀 Deploying to staging environment"
-          # Тут буде команда деплою на staging сервер
+          echo "Branch: ${{ github.ref }}"
+          echo "Commit: ${{ github.sha }}"
 
-  # Deploy to Production (main branch)
+  # Deploy to Production
   deploy-production:
     name: Deploy to Production
-    needs: test
+    needs: test-and-build
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
-    environment: production
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     
     steps:
       - name: Checkout code
@@ -121,21 +100,16 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'yarn'
+          node-version: '20'
           
       - name: Install dependencies
-        run: |
-          rm -rf node_modules package-lock.json yarn.lock
-          npm install -g yarn
-          yarn install --ignore-optional
+        run: npm install
         
       - name: Build for production
-        run: npm run build
-        env:
-          NODE_ENV: production
-          
+        run: npm run build:prod
+        
       - name: Deploy to production
         run: |
           echo "🚀 Deploying to production environment"
-          # Тут буде команда деплою на production сервер
+          echo "Branch: ${{ github.ref }}"
+          echo "Commit: ${{ github.sha }}"
