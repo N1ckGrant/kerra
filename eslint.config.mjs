@@ -2,6 +2,10 @@
 import withNuxt from './.nuxt/eslint.config.mjs'
 
 export default withNuxt({
+  // Disable oxc-parser to avoid native binding issues
+  languageOptions: {
+    parser: undefined,
+  },
   rules: {
     // Vue rules
     'vue/multi-word-component-names': 'off',

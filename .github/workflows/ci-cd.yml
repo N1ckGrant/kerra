@@ -28,7 +28,8 @@ jobs:
       - name: Install dependencies
         run: |
           rm -rf node_modules package-lock.json
-          npm install
+          npm install --no-optional
+          npm rebuild
         
       - name: Run linting
         run: npm run lint
@@ -63,7 +64,8 @@ jobs:
       - name: Install dependencies
         run: |
           rm -rf node_modules package-lock.json
-          npm install
+          npm install --no-optional
+          npm rebuild
         
       - name: Build for development
         run: npm run build
@@ -97,7 +99,8 @@ jobs:
       - name: Install dependencies
         run: |
           rm -rf node_modules package-lock.json
-          npm install
+          npm install --no-optional
+          npm rebuild
         
       - name: Build for staging
         run: npm run build
@@ -130,7 +133,8 @@ jobs:
       - name: Install dependencies
         run: |
           rm -rf node_modules package-lock.json
-          npm install
+          npm install --no-optional
+          npm rebuild
         
       - name: Build for production
         run: npm run build
