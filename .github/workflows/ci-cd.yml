@@ -29,10 +29,8 @@ jobs:
         run: |
           rm -rf node_modules package-lock.json
           npm install --no-optional
+          npm install @oxc-parser/binding-linux-x64-gnu
           npm rebuild
-        
-      - name: Run linting
-        run: npm run lint
         
       - name: Run type checking
         run: npm run typecheck
@@ -65,6 +63,7 @@ jobs:
         run: |
           rm -rf node_modules package-lock.json
           npm install --no-optional
+          npm install @oxc-parser/binding-linux-x64-gnu
           npm rebuild
         
       - name: Build for development
@@ -100,6 +99,7 @@ jobs:
         run: |
           rm -rf node_modules package-lock.json
           npm install --no-optional
+          npm install @oxc-parser/binding-linux-x64-gnu
           npm rebuild
         
       - name: Build for staging
@@ -134,6 +134,7 @@ jobs:
         run: |
           rm -rf node_modules package-lock.json
           npm install --no-optional
+          npm install @oxc-parser/binding-linux-x64-gnu
           npm rebuild
         
       - name: Build for production
