@@ -8,7 +8,7 @@ export default [
   // Base configurations
   js.configs.recommended,
   ...pluginVue.configs['flat/essential'],
-  
+
   {
     files: ['**/*.vue'],
     languageOptions: {
@@ -31,7 +31,7 @@ export default [
       'vue/no-unused-vars': 'warn',
       'vue/require-default-prop': 'off',
       'vue/require-prop-types': 'off',
-      
+
       // General rules
       'no-console': 'warn',
       'no-debugger': 'error',
@@ -41,7 +41,7 @@ export default [
       'no-undef': 'off',
     },
   },
-  
+
   {
     files: ['**/*.{js,mjs,cjs,ts}'],
     languageOptions: {
@@ -67,7 +67,7 @@ export default [
       // TypeScript rules
       '@typescript-eslint/no-unused-vars': 'warn',
       '@typescript-eslint/no-explicit-any': 'warn',
-      
+
       // General rules
       'no-console': 'warn',
       'no-debugger': 'error',
@@ -87,14 +87,14 @@ export default [
       'no-irregular-whitespace': 'error',
       'use-isnan': 'error',
       'valid-typeof': 'error',
-      
+
       // Code style
-      'quotes': ['warn', 'single'],
-      'semi': ['warn', 'never'],
+      quotes: ['warn', 'single'],
+      semi: ['warn', 'never'],
       'comma-dangle': ['warn', 'always-multiline'],
     },
   },
-  
+
   // Ignore patterns
   {
     ignores: [

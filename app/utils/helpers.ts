@@ -11,7 +11,7 @@ export const formatCurrency = (amount: number): string => {
 
 export const debounce = <T extends (...args: unknown[]) => unknown>(
   func: T,
-  wait: number,
+  wait: number
 ): ((...args: Parameters<T>) => void) => {
   let timeout: ReturnType<typeof setTimeout>
 
