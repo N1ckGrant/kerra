@@ -11,6 +11,8 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
+    "lint": "eslint . --ext .js,.ts,.vue",
+    "lint:fix": "eslint . --ext .js,.ts,.vue --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test": "echo \"✅ Tests passed\" && exit 0"
@@ -23,6 +25,11 @@
   "devDependencies": {
     "@nuxt/typescript-build": "^3.0.2",
     "@types/node": "^24.3.0",
+    "@typescript-eslint/eslint-plugin": "^8.15.0",
+    "@typescript-eslint/parser": "^8.15.0",
+    "eslint": "^9.15.0",
+    "eslint-plugin-vue": "^9.30.0",
+    "vue-eslint-parser": "^9.4.3",
     "prettier": "^3.6.2",
     "typescript": "^5.9.2",
     "vue-tsc": "^2.1.10"
