@@ -23,13 +23,13 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
+          cache: 'yarn'
           
       - name: Install dependencies
         run: |
-          rm -rf node_modules package-lock.json
-          npm install --no-optional
-          npm rebuild
+          rm -rf node_modules package-lock.json yarn.lock
+          npm install -g yarn
+          yarn install --ignore-optional
         
       - name: Run formatting check
         run: npm run format:check
@@ -53,14 +53,13 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
+          cache: 'yarn'
           
       - name: Install dependencies
         run: |
-          rm -rf node_modules package-lock.json
-          npm install --no-optional
-
-          npm rebuild
+          rm -rf node_modules package-lock.json yarn.lock
+          npm install -g yarn
+          yarn install --ignore-optional
         
       - name: Build for development
         run: npm run build
@@ -89,14 +88,13 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
+          cache: 'yarn'
           
       - name: Install dependencies
         run: |
-          rm -rf node_modules package-lock.json
-          npm install --no-optional
-
-          npm rebuild
+          rm -rf node_modules package-lock.json yarn.lock
+          npm install -g yarn
+          yarn install --ignore-optional
         
       - name: Build for staging
         run: npm run build
@@ -124,14 +122,13 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
+          cache: 'yarn'
           
       - name: Install dependencies
         run: |
-          rm -rf node_modules package-lock.json
-          npm install --no-optional
-
-          npm rebuild
+          rm -rf node_modules package-lock.json yarn.lock
+          npm install -g yarn
+          yarn install --ignore-optional
         
       - name: Build for production
         run: npm run build
