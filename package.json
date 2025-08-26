@@ -24,6 +24,7 @@
     "@nuxt/typescript-build": "^3.0.2",
     "@types/node": "^24.3.0",
     "prettier": "^3.6.2",
-    "typescript": "^5.9.2"
+    "typescript": "^5.9.2",
+    "vue-tsc": "^2.1.10"
   }
 }
