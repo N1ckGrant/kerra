@@ -14,7 +14,7 @@ interface ErrorProps {
   }
 }
 
-const props = defineProps<ErrorProps>()
+const _props = defineProps<ErrorProps>()
 
 const handleError = () => {
   clearError({ redirect: '/' })

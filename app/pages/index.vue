@@ -7,7 +7,7 @@
 
 <script setup lang="ts">
 definePageMeta({
-  title: 'Головна'
+  title: 'Головна',
 })
 </script>
 

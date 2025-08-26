@@ -1,6 +1,6 @@
 <template>
   <div class="loading-overlay">
-    <div class="loading-spinner"></div>
+    <div class="loading-spinner" />
     <p>Завантаження...</p>
   </div>
 </template>
@@ -31,7 +31,11 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 </style>

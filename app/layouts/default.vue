@@ -5,11 +5,11 @@
         <NuxtLink to="/">Головна</NuxtLink>
       </nav>
     </header>
-    
+
     <main class="main">
       <slot />
     </main>
-    
+
     <footer class="footer">
       <p>&copy; 2024 Nuxt 4 App</p>
     </footer>

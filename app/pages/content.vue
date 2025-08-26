@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 definePageMeta({
-  title: 'Контент'
+  title: 'Контент',
 })
 </script>
 
