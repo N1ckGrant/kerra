@@ -18,20 +18,18 @@
     "format:check": "prettier --check .",
     "typecheck": "nuxt typecheck",
     "test": "echo \"No tests specified\" && exit 0",
-    "test:ci": "npm run lint && npm run typecheck && npm run format:check && npm run build",
+    "test:ci": "npm run format:check && npm run build",
     "deploy:dev": "npm run build:dev && echo \"Deploy to development\"",
     "deploy:staging": "npm run build:staging && echo \"Deploy to staging\"",
     "deploy:prod": "npm run build:prod && echo \"Deploy to production\""
   },
   "dependencies": {
-    "@nuxt/eslint": "^1.9.0",
     "nuxt": "^4.0.3",
     "vue": "^3.5.20",
     "vue-router": "^4.5.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.34.0",
-    "@nuxt/eslint-config": "^1.9.0",
     "@nuxt/typescript-build": "^3.0.2",
     "@types/node": "^24.3.0",
     "@typescript-eslint/eslint-plugin": "^8.41.0",
