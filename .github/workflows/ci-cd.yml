@@ -23,29 +23,29 @@ jobs:
     steps:
       # Завантажує код з репозиторію на runner
       - name: Checkout code
-        uses: actions/checkout@v4  # Використовує готову action від GitHub
+        uses: actions/checkout@v4 # Використовує готову action від GitHub
 
       # Встановлює Node.js на runner
       - name: Setup Node.js
-        uses: actions/setup-node@v4  # Готова action для налаштування Node.js
+        uses: actions/setup-node@v4 # Готова action для налаштування Node.js
         with:
-          node-version: '22'  # Версія Node.js (потрібна для Nuxt 4)
+          node-version: '22' # Версія Node.js (потрібна для Nuxt 4)
 
       # Встановлює npm залежності проекту
       - name: Install dependencies
-        run: npm install  # Виконує команду в терміналі runner'а
+        run: npm install # Виконує команду в терміналі runner'а
 
       # Перевіряє якість коду за допомогою ESLint
       - name: Run ESLint
-        run: npm run lint  # Запускає скрипт з package.json
+        run: npm run lint # Запускає скрипт з package.json
 
       # Перевіряє форматування коду за допомогою Prettier
       - name: Run Prettier check
-        run: npm run format:check  # Перевіряє чи код відформатований правильно
+        run: npm run format:check # Перевіряє чи код відформатований правильно
 
       # Збирає додаток для production
       - name: Build application
-        run: npm run build  # Створює optimized build проекту
+        run: npm run build # Створює optimized build проекту
 
   # Deploy to Development - деплой на development сервер
   deploy-development:
@@ -75,7 +75,7 @@ jobs:
 
       # Збирає додаток з development налаштуваннями
       - name: Build for development
-        run: npm run build:dev  # NODE_ENV=development
+        run: npm run build:dev # NODE_ENV=development
 
       # Виконує деплой на development сервер
       - name: Deploy to development
@@ -113,7 +113,7 @@ jobs:
 
       # Збирає з staging конфігурацією
       - name: Build for staging
-        run: npm run build:staging  # NODE_ENV=staging
+        run: npm run build:staging # NODE_ENV=staging
 
       # Деплоїть на staging сервер (фінальне тестування перед production)
       - name: Deploy to staging
@@ -143,7 +143,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22'  # Стабільна LTS версія
+          node-version: '22' # Стабільна LTS версія
 
       # Встановлює всі залежності
       - name: Install dependencies
@@ -151,7 +151,7 @@ jobs:
 
       # Збирає optimized production build
       - name: Build for production
-        run: npm run build:prod  # NODE_ENV=production, minification, optimization
+        run: npm run build:prod # NODE_ENV=production, minification, optimization
 
       # Деплоїть на production сервери (користувачі)
       - name: Deploy to production
