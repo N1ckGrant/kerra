@@ -1,118 +1,162 @@
+# Назва workflow, яка відображається в GitHub Actions UI
 name: CI/CD Pipeline
 
+# Тригери - коли запускається workflow
 on:
+  # Запуск при push (коміт) на зазначені гілки
   push:
     branches: [main, develop, staging]
+  # Запуск при створенні Pull Request на зазначені гілки
   pull_request:
     branches: [main, develop, staging]
 
+# Групування всіх job'ів які виконуються в цьому workflow
 jobs:
-  # Test and Build Job
+  # Test and Build Job - основний job для тестування та збірки
   test-and-build:
+    # Читабельна назва job'у для UI
     name: Test and Build
+    # Віртуальна машина на якій виконується job (Ubuntu Linux останньої версії)
     runs-on: ubuntu-latest
 
+    # Послідовність кроків які виконуються в цьому job
     steps:
+      # Завантажує код з репозиторію на runner
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4  # Використовує готову action від GitHub
 
+      # Встановлює Node.js на runner
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v4  # Готова action для налаштування Node.js
         with:
-          node-version: '22'
+          node-version: '22'  # Версія Node.js (потрібна для Nuxt 4)
 
+      # Встановлює npm залежності проекту
       - name: Install dependencies
-        run: npm install
+        run: npm install  # Виконує команду в терміналі runner'а
 
+      # Перевіряє якість коду за допомогою ESLint
       - name: Run ESLint
-        run: npm run lint
+        run: npm run lint  # Запускає скрипт з package.json
 
+      # Перевіряє форматування коду за допомогою Prettier
       - name: Run Prettier check
-        run: npm run format:check
+        run: npm run format:check  # Перевіряє чи код відформатований правильно
 
+      # Збирає додаток для production
       - name: Build application
-        run: npm run build
+        run: npm run build  # Створює optimized build проекту
 
-  # Deploy to Development
+  # Deploy to Development - деплой на development сервер
   deploy-development:
+    # Читабельна назва для UI
     name: Deploy to Development
+    # Залежність - цей job запуститься тільки після успішного test-and-build
     needs: test-and-build
+    # Віртуальна машина для виконання
     runs-on: ubuntu-latest
+    # Умова запуску - тільки при push на гілку develop (не на PR)
     if: github.ref == 'refs/heads/develop' && github.event_name == 'push'
 
     steps:
+      # Завантажує код з репозиторію
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # Встановлює Node.js (той самий що і в test job)
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22'
 
+      # Встановлює залежності (знову, бо це новий runner)
       - name: Install dependencies
         run: npm install
 
+      # Збирає додаток з development налаштуваннями
       - name: Build for development
-        run: npm run build:dev
+        run: npm run build:dev  # NODE_ENV=development
 
+      # Виконує деплой на development сервер
       - name: Deploy to development
         run: |
           echo "🚀 Deploying to development environment"
-          echo "Branch: ${{ github.ref }}"
-          echo "Commit: ${{ github.sha }}"
+          echo "Branch: ${{ github.ref }}"        # Показує поточну гілку
+          echo "Commit: ${{ github.sha }}"        # Показує SHA коміту
+          # Тут буде команда деплою: rsync, scp, docker push, kubectl apply тощо
 
-  # Deploy to Staging
+  # Deploy to Staging - деплой на staging (тестове) середовище
   deploy-staging:
+    # Читабельна назва для UI
     name: Deploy to Staging
+    # Залежність - запуститься після успішного test-and-build
     needs: test-and-build
+    # Віртуальна машина Ubuntu
     runs-on: ubuntu-latest
+    # Умова - тільки при push на staging гілку (не PR)
     if: github.ref == 'refs/heads/staging' && github.event_name == 'push'
 
     steps:
+      # Завантажує код
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # Налаштовує Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22'
 
+      # Встановлює пакети
       - name: Install dependencies
         run: npm install
 
+      # Збирає з staging конфігурацією
       - name: Build for staging
-        run: npm run build:staging
+        run: npm run build:staging  # NODE_ENV=staging
 
+      # Деплоїть на staging сервер (фінальне тестування перед production)
       - name: Deploy to staging
         run: |
           echo "🚀 Deploying to staging environment"
-          echo "Branch: ${{ github.ref }}"
-          echo "Commit: ${{ github.sha }}"
+          echo "Branch: ${{ github.ref }}"        # refs/heads/staging
+          echo "Commit: ${{ github.sha }}"        # SHA коміту
+          # Тут команди для деплою на staging: docker, k8s, ssh тощо
 
-  # Deploy to Production
+  # Deploy to Production - деплой на production (живий) сервер
   deploy-production:
+    # Назва для користувачів
     name: Deploy to Production
+    # Чекає завершення тестів
     needs: test-and-build
+    # Ubuntu сервер
     runs-on: ubuntu-latest
+    # Тільки при push на main (продакшн гілка)
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
 
     steps:
+      # Отримує останній код
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # Встановлює Node.js 22
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: '22'  # Стабільна LTS версія
 
+      # Встановлює всі залежності
       - name: Install dependencies
         run: npm install
 
+      # Збирає optimized production build
       - name: Build for production
-        run: npm run build:prod
+        run: npm run build:prod  # NODE_ENV=production, minification, optimization
 
+      # Деплоїть на production сервери (користувачі)
       - name: Deploy to production
         run: |
           echo "🚀 Deploying to production environment"
-          echo "Branch: ${{ github.ref }}"
-          echo "Commit: ${{ github.sha }}"
+          echo "Branch: ${{ github.ref }}"        # refs/heads/main
+          echo "Commit: ${{ github.sha }}"        # Унікальний ідентифікатор коміту
+          # Тут критично важливі команди деплою на production
