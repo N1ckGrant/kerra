@@ -70,11 +70,10 @@ jobs:
       - name: Build for development
         run: npm run build:dev
 
-      - name: Deploy to Railway (Development)
+      - name: Deploy notification (Development)
         run: |
-          npx @railway/cli deploy
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          echo "🚂 Railway деплоймент (develop) відбувається автоматично"
+          echo "📋 Перевірте Railway dashboard для develop середовища"
 
   # Deploy to Staging
   deploy-staging:
@@ -98,11 +97,10 @@ jobs:
       - name: Build for staging
         run: npm run build:staging
 
-      - name: Deploy to Railway (Staging)
+      - name: Deploy notification (Staging)
         run: |
-          npx @railway/cli deploy
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          echo "🚂 Railway деплоймент (staging) відбувається автоматично"
+          echo "📋 Перевірте Railway dashboard для staging середовища"
 
   # Deploy to Production
   deploy-production:
@@ -126,14 +124,8 @@ jobs:
       - name: Build for production
         run: npm run build:prod
 
-      - name: Deploy to Railway (Production)
+      - name: Deploy notification
         run: |
-          npx @railway/cli deploy
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-
-      - name: Health check after deployment
-        run: |
-          sleep 30
-          # Railway URL буде отримано після першого деплойменту
-          echo "Deployment completed. Check Railway dashboard for URL."
+          echo "🚂 Railway деплоймент відбувається автоматично через GitHub integration"
+          echo "📋 Перевірте Railway dashboard: https://railway.com/project/a9cd4ed0-fce4-44bc-be43-71f2fe8d52ed"
+          echo "✅ Build успішний - Railway автоматично деплоїть зміни"
