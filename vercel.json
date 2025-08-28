@@ -1,10 +1,5 @@
 {
-  "builds": [
-    {
-      "src": "nuxt.config.ts",
-      "use": "@nuxtjs/vercel-builder"
-    }
-  ],
+  "buildCommand": "npm run build",
   "routes": [
     {
       "src": "/api/(.*)",
