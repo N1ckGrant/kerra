@@ -2,9 +2,9 @@
   <div class="api-demo-page">
     <h1>API Демонстрація</h1>
     <p>Тестування API ендпоінтів</p>
-    
+
     <ApiTest />
-    
+
     <div class="back-link">
       <NuxtLink to="/">← Повернутись на головну</NuxtLink>
     </div>

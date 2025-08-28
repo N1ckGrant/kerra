@@ -2,12 +2,12 @@
   <div class="home-page">
     <h1>Ласкаво просимо до Kerra!</h1>
     <p>Це головна сторінка вашого додатку з API бекендом</p>
-    
+
     <div class="navigation">
       <NuxtLink to="/content" class="nav-link">Контент</NuxtLink>
       <NuxtLink to="/api-demo" class="nav-link">API Демо</NuxtLink>
     </div>
-    
+
     <div class="info">
       <h2>Доступні API ендпоінти:</h2>
       <ul>
@@ -16,7 +16,9 @@
         <li><code>POST /api/users</code> - створити користувача</li>
         <li><code>GET /api/users/:id</code> - отримати користувача</li>
         <li><code>POST /api/auth/login</code> - авторизація</li>
-        <li><code>GET /api/admin/stats</code> - статистика (потребує авторизації)</li>
+        <li>
+          <code>GET /api/admin/stats</code> - статистика (потребує авторизації)
+        </li>
       </ul>
     </div>
   </div>

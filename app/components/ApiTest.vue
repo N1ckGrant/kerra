@@ -1,7 +1,7 @@
 <template>
   <div class="api-test">
     <h2>API Тестування</h2>
-    
+
     <div class="test-section">
       <h3>Health Check</h3>
       <button @click="testHealth" :disabled="loading">
@@ -31,7 +31,11 @@
     <div class="test-section">
       <h3>Авторизація</h3>
       <input v-model="credentials.email" placeholder="Email" />
-      <input v-model="credentials.password" type="password" placeholder="Пароль" />
+      <input
+        v-model="credentials.password"
+        type="password"
+        placeholder="Пароль"
+      />
       <button @click="login" :disabled="loading">
         {{ loading ? 'Завантаження...' : 'Увійти' }}
       </button>
@@ -55,18 +59,18 @@ const loginResult = ref(null)
 
 const newUser = ref({
   name: '',
-  email: ''
+  email: '',
 })
 
 const credentials = ref({
   email: 'admin@kerra.com',
-  password: 'password123'
+  password: 'password123',
 })
 
 async function makeRequest(url: string, options: any = {}) {
   loading.value = true
   error.value = null
-  
+
   try {
     const response = await $fetch(url, options)
     return response
@@ -99,13 +103,13 @@ async function createUser() {
     error.value = 'Заповніть всі поля'
     return
   }
-  
+
   try {
     createResult.value = await makeRequest('/api/users', {
       method: 'POST',
-      body: newUser.value
+      body: newUser.value,
     })
-    
+
     // Очистити форму
     newUser.value = { name: '', email: '' }
   } catch (err) {
@@ -118,11 +122,11 @@ async function login() {
     error.value = 'Заповніть всі поля'
     return
   }
-  
+
   try {
     loginResult.value = await makeRequest('/api/auth/login', {
       method: 'POST',
-      body: credentials.value
+      body: credentials.value,
     })
   } catch (err) {
     console.error('Login помилка:', err)

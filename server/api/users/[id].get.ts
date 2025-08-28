@@ -1,4 +1,4 @@
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async event => {
   const userId = getRouterParam(event, 'id')
 
   if (!userId) {
@@ -15,7 +15,7 @@ export default defineEventHandler(async (event) => {
     { id: 3, name: 'Іван', email: 'ivan@example.com', role: 'user' },
   ]
 
-  const user = users.find((u) => u.id === parseInt(userId))
+  const user = users.find(u => u.id === parseInt(userId))
 
   if (!user) {
     throw createError({

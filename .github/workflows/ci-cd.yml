@@ -123,7 +123,7 @@ jobs:
           npx @railway/cli deploy
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-          
+
       - name: Health check after deployment
         run: |
           sleep 30

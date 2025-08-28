@@ -1,6 +1,6 @@
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async event => {
   // Цей ендпоінт буде захищений middleware/auth.ts
-  
+
   return {
     success: true,
     data: {

@@ -1,6 +1,6 @@
 import { createUser } from '../../utils/auth'
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async event => {
   const body = await readBody(event)
 
   // Валідація

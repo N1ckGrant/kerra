@@ -11,9 +11,24 @@ async function seedDatabase() {
     console.log('✅ Створено адміна: admin@kerra.com / admin123')
 
     // Створюємо звичайних користувачів
-    await createUser('Олександр Петренко', 'alex@example.com', 'password123', 'user')
-    await createUser('Марія Іванова', 'maria@example.com', 'password123', 'user')
-    await createUser('Іван Сидоренко', 'ivan@example.com', 'password123', 'user')
+    await createUser(
+      'Олександр Петренко',
+      'alex@example.com',
+      'password123',
+      'user'
+    )
+    await createUser(
+      'Марія Іванова',
+      'maria@example.com',
+      'password123',
+      'user'
+    )
+    await createUser(
+      'Іван Сидоренко',
+      'ivan@example.com',
+      'password123',
+      'user'
+    )
     console.log('✅ Створено тестових користувачів')
 
     // Додаємо тестові продукти
@@ -42,7 +57,6 @@ async function seedDatabase() {
     console.log('👤 Користувач: alex@example.com / password123')
     console.log('👤 Користувач: maria@example.com / password123')
     console.log('👤 Користувач: ivan@example.com / password123')
-
   } catch (error) {
     console.error('❌ Помилка заповнення бази даних:', error)
   }

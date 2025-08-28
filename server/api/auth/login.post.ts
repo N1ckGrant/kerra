@@ -1,6 +1,6 @@
 import { authenticateUser, createJWT } from '../../utils/auth'
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async event => {
   const body = await readBody(event)
 
   if (!body.email || !body.password) {
@@ -32,7 +32,7 @@ export default defineEventHandler(async (event) => {
       email: user.email,
       role: user.role,
     })
-    
+
     return {
       success: true,
       message: 'Login successful',

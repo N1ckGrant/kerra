@@ -13,47 +13,75 @@ export async function hashPassword(password: string): Promise<string> {
 }
 
 // Перевірка паролю
-export async function verifyPassword(password: string, hash: string): Promise<boolean> {
+export async function verifyPassword(
+  password: string,
+  hash: string
+): Promise<boolean> {
   return bcrypt.compare(password, hash)
 }
 
 // Створення JWT токена
-export function createJWT(payload: { userId: number, email: string, role: string }): string {
+export function createJWT(payload: {
+  userId: number
+  email: string
+  role: string
+}): string {
   return jwt.sign(payload, JWT_SECRET, { expiresIn: '7d' })
 }
 
 // Перевірка JWT токена
-export function verifyJWT(token: string): { userId: number, email: string, role: string } | null {
+export function verifyJWT(
+  token: string
+): { userId: number; email: string; role: string } | null {
   try {
-    return jwt.verify(token, JWT_SECRET) as { userId: number, email: string, role: string }
+    return jwt.verify(token, JWT_SECRET) as {
+      userId: number
+      email: string
+      role: string
+    }
   } catch {
     return null
   }
 }
 
 // Створення користувача
-export async function createUser(name: string, email: string, password: string, role = 'user') {
+export async function createUser(
+  name: string,
+  email: string,
+  password: string,
+  role = 'user'
+) {
   const hashedPassword = await hashPassword(password)
-  
-  const [user] = await db.insert(users).values({
-    name,
-    email,
-    password: hashedPassword,
-    role,
-  }).returning()
-  
+
+  const [user] = await db
+    .insert(users)
+    .values({
+      name,
+      email,
+      password: hashedPassword,
+      role,
+    })
+    .returning()
+
   return user
 }
 
 // Аутентифікація користувача
-export async function authenticateUser(email: string, password: string): Promise<User | null> {
-  const [user] = await db.select().from(users).where(eq(users.email, email)).limit(1)
-  
+export async function authenticateUser(
+  email: string,
+  password: string
+): Promise<User | null> {
+  const [user] = await db
+    .select()
+    .from(users)
+    .where(eq(users.email, email))
+    .limit(1)
+
   if (!user) return null
-  
+
   const isValidPassword = await verifyPassword(password, user.password)
   if (!isValidPassword) return null
-  
+
   return user
 }
 
@@ -65,21 +93,21 @@ export async function getUserById(id: number): Promise<User | null> {
 
 // Створення сесії
 export async function createSession(userId: number): Promise<string> {
-  const token = createJWT({ 
-    userId, 
+  const token = createJWT({
+    userId,
     email: '', // Заповнимо пізніше
-    role: '' 
+    role: '',
   })
-  
+
   const expiresAt = new Date()
   expiresAt.setDate(expiresAt.getDate() + 7) // 7 днів
-  
+
   await db.insert(sessions).values({
     userId,
     token,
     expiresAt,
   })
-  
+
   return token
 }
 
