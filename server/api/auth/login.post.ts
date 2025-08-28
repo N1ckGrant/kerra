@@ -1,3 +1,5 @@
+import { authenticateUser, createJWT } from '../../utils/auth'
+
 export default defineEventHandler(async (event) => {
   const body = await readBody(event)
 
@@ -8,33 +10,50 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  // Симуляція перевірки користувача
-  const validCredentials = {
-    email: 'admin@kerra.com',
-    password: 'password123',
-  }
+  try {
+    const user = await authenticateUser(body.email, body.password)
 
-  if (body.email !== validCredentials.email || body.password !== validCredentials.password) {
-    throw createError({
-      statusCode: 401,
-      statusMessage: 'Invalid credentials',
+    if (!user) {
+      throw createError({
+        statusCode: 401,
+        statusMessage: 'Invalid email or password',
+      })
+    }
+
+    if (!user.isActive) {
+      throw createError({
+        statusCode: 401,
+        statusMessage: 'Account is disabled',
+      })
+    }
+
+    const token = createJWT({
+      userId: user.id,
+      email: user.email,
+      role: user.role,
     })
-  }
-
-  // Симуляція створення JWT токена
-  const token = 'valid-admin-token'
-  
-  return {
-    success: true,
-    message: 'Login successful',
-    data: {
-      token,
-      user: {
-        id: 1,
-        email: body.email,
-        name: 'Admin User',
-        role: 'admin',
+    
+    return {
+      success: true,
+      message: 'Login successful',
+      data: {
+        token,
+        user: {
+          id: user.id,
+          email: user.email,
+          name: user.name,
+          role: user.role,
+        },
       },
-    },
+    }
+  } catch (error: any) {
+    if (error.statusCode) {
+      throw error
+    }
+
+    throw createError({
+      statusCode: 500,
+      statusMessage: 'Authentication failed',
+    })
   }
 })

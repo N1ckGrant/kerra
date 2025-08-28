@@ -17,23 +17,36 @@
     "format:check": "prettier --check .",
     "test": "echo \"✅ Tests passed\" && exit 0",
     "test:api": "node scripts/test-api.js",
-    "start": "node .output/server/index.mjs"
+    "start": "node .output/server/index.mjs",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:studio": "drizzle-kit studio",
+    "db:seed": "tsx scripts/seed-db.ts"
   },
   "dependencies": {
+    "@types/pg": "^8.15.5",
+    "bcryptjs": "^3.0.2",
+    "drizzle-orm": "^0.44.5",
+    "jsonwebtoken": "^9.0.2",
     "nuxt": "^4.0.3",
+    "postgres": "^3.4.7",
     "vue": "^3.5.20",
     "vue-router": "^4.5.1"
   },
   "devDependencies": {
     "@nuxt/typescript-build": "^3.0.2",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^24.3.0",
     "@typescript-eslint/eslint-plugin": "^8.15.0",
     "@typescript-eslint/parser": "^8.15.0",
+    "drizzle-kit": "^0.31.4",
     "eslint": "^9.15.0",
     "eslint-plugin-vue": "^9.30.0",
-    "vue-eslint-parser": "^9.4.3",
     "prettier": "^3.6.2",
+    "tsx": "^4.20.5",
     "typescript": "^5.9.2",
+    "vue-eslint-parser": "^9.4.3",
     "vue-tsc": "^2.1.10"
   }
 }

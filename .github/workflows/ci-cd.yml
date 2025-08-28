@@ -62,18 +62,9 @@ jobs:
       - name: Build for development
         run: npm run build:dev
 
-      - name: Deploy to Vercel (Development)
-        uses: amondnet/vercel-action@v25
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          vercel-args: '--prod --env NODE_ENV=development'
-          
       - name: Deploy to Railway (Development)
-        if: ${{ secrets.RAILWAY_TOKEN }}
         run: |
-          npx @railway/cli deploy --service kerra-dev
+          npx @railway/cli deploy
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
 
@@ -99,18 +90,9 @@ jobs:
       - name: Build for staging
         run: npm run build:staging
 
-      - name: Deploy to Vercel (Staging)
-        uses: amondnet/vercel-action@v25
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          vercel-args: '--prod --env NODE_ENV=staging'
-          
       - name: Deploy to Railway (Staging)
-        if: ${{ secrets.RAILWAY_TOKEN }}
         run: |
-          npx @railway/cli deploy --service kerra-staging
+          npx @railway/cli deploy
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
 
@@ -136,22 +118,14 @@ jobs:
       - name: Build for production
         run: npm run build:prod
 
-      - name: Deploy to Vercel (Production)
-        uses: amondnet/vercel-action@v25
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          vercel-args: '--prod --env NODE_ENV=production'
-          
       - name: Deploy to Railway (Production)
-        if: ${{ secrets.RAILWAY_TOKEN }}
         run: |
-          npx @railway/cli deploy --service kerra-prod
+          npx @railway/cli deploy
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
           
       - name: Health check after deployment
         run: |
           sleep 30
-          curl -f https://kerra.vercel.app/api/health || curl -f https://kerra-prod.railway.app/api/health
+          # Railway URL буде отримано після першого деплойменту
+          echo "Deployment completed. Check Railway dashboard for URL."

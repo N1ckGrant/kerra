@@ -40,7 +40,6 @@ Thumbs.db
 *.temp
 
 # Deployment
-.vercel
 .railway
 
 # Database
