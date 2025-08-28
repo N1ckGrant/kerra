@@ -3,7 +3,7 @@
 import { drizzle } from 'drizzle-orm/postgres-js'
 import postgres from 'postgres'
 import { migrate } from 'drizzle-orm/postgres-js/migrator'
-import * as schema from '../server/database/schema.js'
+// import * as schema from '../server/database/schema.js'
 
 async function runMigrations() {
   const databaseUrl = process.env.DATABASE_URL
@@ -16,7 +16,7 @@ async function runMigrations() {
   console.log('🔄 Підключення до бази даних...')
 
   const client = postgres(databaseUrl, { max: 1 })
-  const db = drizzle(client, { schema })
+  const db = drizzle(client)
 
   try {
     console.log('🚀 Запуск міграцій...')

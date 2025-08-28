@@ -22,6 +22,7 @@
       <h3>Створити користувача</h3>
       <input v-model="newUser.name" placeholder="Ім'я" />
       <input v-model="newUser.email" placeholder="Email" />
+      <input v-model="newUser.password" type="password" placeholder="Пароль" />
       <button @click="createUser" :disabled="loading">
         {{ loading ? 'Завантаження...' : 'Створити' }}
       </button>
@@ -60,6 +61,7 @@ const loginResult = ref(null)
 const newUser = ref({
   name: '',
   email: '',
+  password: '',
 })
 
 const credentials = ref({
