@@ -33,12 +33,20 @@ jobs:
       - name: Build application
         run: npm run build
 
-      - name: Test API endpoints
+      # API тестування тільки якщо є DATABASE_URL
+      - name: Test API endpoints (if database available)
         run: |
-          npm run dev &
-          sleep 10
-          curl -f http://localhost:3000/api/health || exit 1
-          kill %1
+          if [ -n "$DATABASE_URL" ]; then
+            echo "Testing API with database..."
+            npm run dev &
+            sleep 10
+            curl -f http://localhost:3000/api/health || exit 1
+            kill %1
+          else
+            echo "Skipping API tests - no database configured"
+          fi
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
   # Deploy to Development
   deploy-development:
