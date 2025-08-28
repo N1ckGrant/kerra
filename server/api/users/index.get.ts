@@ -6,11 +6,32 @@ export default defineEventHandler(async event => {
     // Якщо немає бази даних (dev режим), повертаємо mock дані
     if (!db) {
       const mockUsers = [
-        { id: 1, name: 'Олександр', email: 'alex@example.com', role: 'user', isActive: true, createdAt: new Date() },
-        { id: 2, name: 'Марія', email: 'maria@example.com', role: 'user', isActive: true, createdAt: new Date() },
-        { id: 3, name: 'Іван', email: 'ivan@example.com', role: 'admin', isActive: true, createdAt: new Date() },
+        {
+          id: 1,
+          name: 'Олександр',
+          email: 'alex@example.com',
+          role: 'user',
+          isActive: true,
+          createdAt: new Date(),
+        },
+        {
+          id: 2,
+          name: 'Марія',
+          email: 'maria@example.com',
+          role: 'user',
+          isActive: true,
+          createdAt: new Date(),
+        },
+        {
+          id: 3,
+          name: 'Іван',
+          email: 'ivan@example.com',
+          role: 'admin',
+          isActive: true,
+          createdAt: new Date(),
+        },
       ]
-      
+
       return {
         success: true,
         data: mockUsers,

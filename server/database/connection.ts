@@ -11,8 +11,10 @@ let testConnection: () => Promise<boolean>
 
 if (!connectionString) {
   if (process.env.NODE_ENV === 'development') {
-    console.warn('⚠️  DATABASE_URL not found. Running in development mode without database.')
-    
+    console.warn(
+      '⚠️  DATABASE_URL not found. Running in development mode without database.'
+    )
+
     // Mock для dev режиму
     db = null
     testConnection = async () => {
