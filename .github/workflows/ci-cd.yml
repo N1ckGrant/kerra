@@ -33,6 +33,13 @@ jobs:
       - name: Build application
         run: npm run build
 
+      - name: Test API endpoints
+        run: |
+          npm run dev &
+          sleep 10
+          curl -f http://localhost:3000/api/health || exit 1
+          kill %1
+
   # Deploy to Development
   deploy-development:
     name: Deploy to Development
@@ -55,11 +62,20 @@ jobs:
       - name: Build for development
         run: npm run build:dev
 
-      - name: Deploy to development
+      - name: Deploy to Vercel (Development)
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-args: '--prod --env NODE_ENV=development'
+          
+      - name: Deploy to Railway (Development)
+        if: ${{ secrets.RAILWAY_TOKEN }}
         run: |
-          echo "🚀 Deploying to development environment"
-          echo "Branch: ${{ github.ref }}"
-          echo "Commit: ${{ github.sha }}"
+          npx @railway/cli deploy --service kerra-dev
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
 
   # Deploy to Staging
   deploy-staging:
@@ -83,11 +99,20 @@ jobs:
       - name: Build for staging
         run: npm run build:staging
 
-      - name: Deploy to staging
+      - name: Deploy to Vercel (Staging)
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-args: '--prod --env NODE_ENV=staging'
+          
+      - name: Deploy to Railway (Staging)
+        if: ${{ secrets.RAILWAY_TOKEN }}
         run: |
-          echo "🚀 Deploying to staging environment"
-          echo "Branch: ${{ github.ref }}"
-          echo "Commit: ${{ github.sha }}"
+          npx @railway/cli deploy --service kerra-staging
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
 
   # Deploy to Production
   deploy-production:
@@ -111,8 +136,22 @@ jobs:
       - name: Build for production
         run: npm run build:prod
 
-      - name: Deploy to production
+      - name: Deploy to Vercel (Production)
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-args: '--prod --env NODE_ENV=production'
+          
+      - name: Deploy to Railway (Production)
+        if: ${{ secrets.RAILWAY_TOKEN }}
         run: |
-          echo "🚀 Deploying to production environment"
-          echo "Branch: ${{ github.ref }}"
-          echo "Commit: ${{ github.sha }}"
+          npx @railway/cli deploy --service kerra-prod
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          
+      - name: Health check after deployment
+        run: |
+          sleep 30
+          curl -f https://kerra.vercel.app/api/health || curl -f https://kerra-prod.railway.app/api/health

@@ -15,7 +15,9 @@
     "lint:fix": "eslint . --ext .js,.ts,.vue --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "test": "echo \"✅ Tests passed\" && exit 0"
+    "test": "echo \"✅ Tests passed\" && exit 0",
+    "test:api": "node scripts/test-api.js",
+    "start": "node .output/server/index.mjs"
   },
   "dependencies": {
     "nuxt": "^4.0.3",

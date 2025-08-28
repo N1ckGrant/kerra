@@ -38,3 +38,12 @@ Thumbs.db
 # Temporary files
 *.tmp
 *.temp
+
+# Deployment
+.vercel
+.railway
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
