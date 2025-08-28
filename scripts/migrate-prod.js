@@ -7,14 +7,14 @@ import * as schema from '../server/database/schema.js'
 
 async function runMigrations() {
   const databaseUrl = process.env.DATABASE_URL
-  
+
   if (!databaseUrl) {
     console.error('❌ DATABASE_URL не знайдено')
     process.exit(1)
   }
 
   console.log('🔄 Підключення до бази даних...')
-  
+
   const client = postgres(databaseUrl, { max: 1 })
   const db = drizzle(client, { schema })
 
